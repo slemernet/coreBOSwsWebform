@@ -1,4 +1,4 @@
-coreBOSwsWebform
+coreBOS Webservice Webform
 ================
 
 **coreBOS advanced webform creation and validation**
