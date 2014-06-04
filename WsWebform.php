@@ -84,6 +84,8 @@ require_once('vtwsclib/Vtiger/WSClient.php');
 class WsWebform
 {
 
+    protected $client;
+
     protected $url;
 
     protected $user;
@@ -272,6 +274,10 @@ class WsWebform
             return $return;
         }
         return !empty($record);
+    }
+
+    public function lastError() {
+        return $this->client->lastError();
     }
 
 }
