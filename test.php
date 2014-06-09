@@ -17,19 +17,15 @@
  *  Author       : JPL TSolucio, S. L.
  *************************************************************************************************/
 
-require_once('WsWebform.php');
+$DEBUG = true;
+$redirect = "";
 
-// Emulate data filled from an array, this replaces: $data = $_REQUEST;
-$uid = time();
-$data = array(
-    'firstname' => 'n' . $uid,
-    'lastname' => 'ln' . $uid,
-    'email' => $uid . '@example.com',
-    'potential_name' => 'My Potential ' . $uid,
-    'potential_amount' => $uid / 1000,
-    'potential_closingdate' => date('Y-m-d'),
-    'potential_sales_stage' => 'Prospecting',
-);
+ob_start();
+
+if ($DEBUG) {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+}
 
 // Config data for the REST service
 $config = array(
@@ -70,11 +66,37 @@ $config = array(
     ),
 );
 
-$webform = new WsWebform($config);
+require_once('WsWebform.php');
 
-// Process the form
-$webform->send($data);
+// Emulate data filled from an array, this replaces: $data = $_REQUEST;
+$uid = time();
+$data = array(
+    'firstname' => 'n' . $uid,
+    'lastname' => 'ln' . $uid,
+    'email' => $uid . '@example.com',
+    'potential_name' => 'My Potential ' . $uid,
+    'potential_amount' => $uid / 1000,
+    'potential_closingdate' => date('Y-m-d'),
+    'potential_sales_stage' => 'Prospecting',
+);
 
-// Process the form again to test the duplicate matching
-$webform->send($data);
+try {
+    $webform = new WsWebform($config);
+    if (!$webform->send($data) && $DEBUG) {
+        var_dump($webform->lastError());
+    }
+    if (!$webform->send($data) && $DEBUG) {
+        var_dump($webform->lastError());
+    }
+} catch (Exception $e) {
+    if ($DEBUG) {
+        echo $e->getMessage();
+    }
+}
+
+if (!$DEBUG) {
+    header('Location: ' . $redirect);
+} else {
+    ob_end_flush();
+}
 
