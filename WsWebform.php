@@ -13,7 +13,7 @@
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
  *  Module       : coreBOSwsWebform
- *  Version      : 0.x
+ *  Version      : 1.0
  *  Author       : JPL TSolucio, S. L.
  *************************************************************************************************/
 

@@ -13,7 +13,7 @@
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
  *  Module       : coreBOSwsWebform
- *  Version      : 0.x
+ *  Version      : 1.0
  *  Author       : JPL TSolucio, S. L.
  *************************************************************************************************/
 
@@ -68,7 +68,7 @@ $config = array(
 
 require_once('WsWebform.php');
 
-// Emulate data filled from an array, this replaces: $data = $_REQUEST;
+// Emulate data filled from FORM submit data, this replaces: $data = $_REQUEST;
 $uid = time();
 $data = array(
     'firstname' => 'n' . $uid,
@@ -82,9 +82,6 @@ $data = array(
 
 try {
     $webform = new WsWebform($config);
-    if (!$webform->send($data) && $DEBUG) {
-        var_dump($webform->lastError());
-    }
     if (!$webform->send($data) && $DEBUG) {
         var_dump($webform->lastError());
     }
