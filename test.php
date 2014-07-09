@@ -82,6 +82,11 @@ $data = array(
 
 try {
     $webform = new WsWebform($config);
+    // Create entity
+    if (!$webform->send($data) && $DEBUG) {
+        var_dump($webform->lastError());
+    }
+    // Try to duplicate
     if (!$webform->send($data) && $DEBUG) {
         var_dump($webform->lastError());
     }
