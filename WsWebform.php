@@ -17,7 +17,7 @@
  *  Author       : JPL TSolucio, S. L.
  *************************************************************************************************/
 
-require_once('vtwsclib/Vtiger/WSClient.php');
+require_once('cbwsclib/WSClient.php');
 
 /**
  * 
