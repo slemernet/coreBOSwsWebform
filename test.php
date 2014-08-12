@@ -28,7 +28,7 @@ if ($DEBUG) {
 }
 
 // Config data for the REST service
-$config = array(
+$defaults = array(
     'url' => 'http://localhost/corebos/',
     'user' => 'admin',
     'password' => '',
@@ -65,6 +65,9 @@ $config = array(
         ),
     ),
 );
+$config = array();
+@include('config.php');
+$config += $defaults;
 
 require_once('WsWebform.php');
 
@@ -86,9 +89,18 @@ try {
     if (!$webform->send($data) && $DEBUG) {
         var_dump($webform->lastError());
     }
-    // Try to duplicate
+    // Update
     if (!$webform->send($data) && $DEBUG) {
         var_dump($webform->lastError());
+    }
+    // Test for duplicate
+    if (!$webform->send($data, false) && $DEBUG) {
+        $error = $webform->lastError();
+        if (!$error) {
+            echo "<p>Already exists.</p>";
+        } else {
+            var_dump($error);
+        }
     }
 } catch (Exception $e) {
     if ($DEBUG) {

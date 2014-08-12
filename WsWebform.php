@@ -20,7 +20,7 @@
 require_once('cbwsclib/WSClient.php');
 
 /**
- * 
+ *
  * REST client to convert form data to entities
  *
  * Use:
@@ -96,6 +96,8 @@ class WsWebform
 
     protected $data;
 
+    protected $update;
+
     /**
      * Constructor
      */
@@ -114,9 +116,10 @@ class WsWebform
     /**
      * Send a form data to WebServices
      */
-    public function send($data)
+    public function send($data, $update = true)
     {
         $this->data = $data;
+        $this->update = $update;
         return $this->sendEntities($this->entities);
     }
 
@@ -262,7 +265,11 @@ class WsWebform
             $id = null;
         }
         if ($id) {
-            $record = $this->update($entity, $id);
+            if ($this->update) {
+                $record = $this->update($entity, $id);
+            } else {
+                return false;
+            }
         } else {
             $record = $this->create($entity);
             $id = $record['id'];
