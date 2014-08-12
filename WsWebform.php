@@ -84,19 +84,19 @@ require_once('cbwsclib/WSClient.php');
 class WsWebform
 {
 
-    protected $client;
+    public $client;
 
-    protected $url;
+    public $url;
 
-    protected $user;
+    public $user;
 
-    protected $password;
+    public $password;
 
-    protected $entities = array();
+    public $entities = array();
 
-    protected $data;
+    public $data;
 
-    protected $update;
+    public $update;
 
     /**
      * Constructor
@@ -126,7 +126,7 @@ class WsWebform
     /**
      * Parses entity configuration data
      */
-    protected function parseEntityData($data)
+    public function parseEntityData($data)
     {
         $entities = array();
         foreach ($data as $entityName => $entityConfig) {
@@ -147,7 +147,7 @@ class WsWebform
     /**
      *  Changes numeric keys by their stored value, to make config arrays simpler
      */
-    protected function fillArrayKeys($array)
+    public function fillArrayKeys($array)
     {
         $result = array();
         foreach ($array as $key => $value) {
@@ -164,7 +164,7 @@ class WsWebform
     /**
      * Renders a query condition from the matching field in the configuration data
      */
-    protected function renderCondition($entity, $matching = null, $operator = 'and')
+    public function renderCondition($entity, $matching = null, $operator = 'and')
     {
         if (is_null($matching)) {
             $matching = $entity['matching'];
@@ -188,7 +188,7 @@ class WsWebform
     /**
      * Gets an array with the data for an entity
      */
-    protected function getEntityData($entity)
+    public function getEntityData($entity)
     {
         $data = array();
         foreach ($entity['fields'] as  $entityField => $formField) {
@@ -207,7 +207,7 @@ class WsWebform
     /**
      * Checks an entity existing with the matching fields and returns the id
      */
-    protected function exists($entity)
+    public function exists($entity)
     {
         $condition = $this->renderCondition($entity);
         $query = "select id from {$entity['name']} where {$condition};";
@@ -221,7 +221,7 @@ class WsWebform
     /**
      * Create an entity with provided form data
      */
-    protected function create($entity)
+    public function create($entity)
     {
         return $this->client->doCreate($entity['name'], $entity['data']);
     }
@@ -229,7 +229,7 @@ class WsWebform
     /**
      * Update an entity with provided form data
      */
-    protected function update($entity, $id)
+    public function update($entity, $id)
     {
         if (!method_exists($this->client, 'doUpdate')) {
             return false;
@@ -243,7 +243,7 @@ class WsWebform
     /**
      * Sends all entities configured
      */
-    protected function sendEntities($entities)
+    public function sendEntities($entities)
     {
         foreach ($entities as $entity) {
             if (!$this->sendEntity($entity)) {
@@ -256,7 +256,7 @@ class WsWebform
     /**
      * Process an entity to be created/updated thru REST
      */
-    protected function sendEntity($entity)
+    public function sendEntity($entity)
     {
         $entity['data'] = $this->getEntityData($entity);
         if (isset($entity['matching'])) {
