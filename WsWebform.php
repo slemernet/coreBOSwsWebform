@@ -93,6 +93,7 @@ class WsWebform
     public $password;
 
     public $entities = array();
+    public $entityIDs = array();
 
     public $data;
 
@@ -274,6 +275,7 @@ class WsWebform
             $record = $this->create($entity);
             $id = $record['id'];
         }
+        $this->entityIDs[$entity['name']][] = $id;
         if ($record && isset($entity['has'])) {
             $this->parentIds[$entity['name']] = $id;
             $return = $this->sendEntities($entity['has']);
