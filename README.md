@@ -7,7 +7,8 @@ This project takes webforms to the next level. coreBOS has a native webform crea
 
 While we were at it we added the **typical validation of fields**, so you can make sure a given field is not repeated or already exists before sending the information in to the application.
 
-You can find full information on the functionality and configuration on the [project's wiki page](http://corebos.org/documentation/doku.php?id=en:devel:coreboswswebform).
+You can find full information on the functionality and configuration on the [project's wiki page](http://corebos.org/documentation/doku.php?id=en:extensions:coreboswswebform).
+
 
 
 *coreBOS Team*
