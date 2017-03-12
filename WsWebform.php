@@ -236,7 +236,7 @@ class WsWebform
             return false;
         }
         $entityData = $this->client->doRetrieve($id);
-        unset($data['assigned_user_id']);
+        unset($entityData['assigned_user_id']);
         $entityData = array_merge($entityData, $entity['data']);
         return $this->client->doUpdate($entity['name'], $entityData);
     }
