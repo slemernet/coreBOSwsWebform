@@ -42,6 +42,10 @@ require_once('cbwsclib/WSClient.php');
  *                 'lastname',
  *                 'email',
  *             ),
+ *             // Default values for creation of new records
+ *             'defaults' => array(
+ *                 'cf_1306' => '1',
+ *             ),
  *             // Fields that should match to find a duplicate
  *             'matching' => array(
  *                 // we can specify an 'and' or 'or' key to group fields inside parenthesis with the given operator, nesting is possible
@@ -66,12 +70,14 @@ require_once('cbwsclib/WSClient.php');
  *                         'closingdate' => 'potential_closingdate',
  *                         'sales_stage' => 'potential_sales_stage',
  *                     ),
+ *                     // Default values for creation of new records
  *                     'matching' => array(
  *                         // When no operator is specified, 'and' is used, so here all fields should match
  *                         'related_to',
  *                         'potentialname',
  *                     ),
  *                 ),
+ *                 // Relate new record with this campaign (or whatever)
  *                 'Campaigns' => array(
  *                     'relatewith' => array(
  *                         'crmid' => '1x999',
@@ -140,6 +146,9 @@ class WsWebform
             $entity['name'] = $entityName;
             if (isset($entityConfig['fields'])) {
                 $entity['fields'] = $this->fillArrayKeys($entityConfig['fields']);
+            }
+            if (isset($entityConfig['defaults'])) {
+                $entity['defaults'] = $this->fillArrayKeys($entityConfig['defaults']);
             }
             if (isset($entityConfig['matching'])) {
                 $entity['matching'] = $this->fillArrayKeys($entityConfig['matching']);
@@ -234,6 +243,9 @@ class WsWebform
      */
     public function create($entity)
     {
+        foreach ($entity['defaults'] as $field => $value) {
+            if (!isset($entity['data'][$field])) $entity['data'][$field] = $value;
+        }
         return $this->client->doCreate($entity['name'], $entity['data']);
     }
 
