@@ -72,6 +72,11 @@ require_once('cbwsclib/WSClient.php');
  *                         'potentialname',
  *                     ),
  *                 ),
+ *                 'Campaigns' => array(
+ *                     'relatewith' => array(
+ *                         'crmid' => '1x999',
+ *                     ),
+ *                 ),
  *             ),
  *         ),
  *         // We could go on with other entity mappings
@@ -133,12 +138,17 @@ class WsWebform
         foreach ($data as $entityName => $entityConfig) {
             $entity = array();
             $entity['name'] = $entityName;
-            $entity['fields'] = $this->fillArrayKeys($entityConfig['fields']);
+            if (isset($entityConfig['fields'])) {
+                $entity['fields'] = $this->fillArrayKeys($entityConfig['fields']);
+            }
             if (isset($entityConfig['matching'])) {
                 $entity['matching'] = $this->fillArrayKeys($entityConfig['matching']);
             }
             if (isset($entityConfig['has'])) {
                 $entity['has'] = $this->parseEntityData($entityConfig['has']);
+            }
+            if (isset($entityConfig['relatewith'])) {
+                $entity['relatewith'] = $entityConfig['relatewith']['crmid'];
             }
             $entities[] = $entity;
         }
@@ -242,13 +252,30 @@ class WsWebform
     }
 
     /**
+     * Update an entity with provided form data
+     */
+    public function setrelation($relate_this_id, $with_these_ids)
+    {
+        if (!method_exists($this->client, 'doSetRelated')) {
+            return false;
+        }
+        return $this->client->doSetRelated($relate_this_id, $with_these_ids);
+    }
+
+    /**
      * Sends all entities configured
      */
     public function sendEntities($entities)
     {
         foreach ($entities as $entity) {
-            if (!$this->sendEntity($entity)) {
-                return false;
+            if (isset($entity['fields'])) {
+                if (!$this->sendEntity($entity)) {
+                    return false;
+                }
+            } elseif (isset($entity['relatewith'])) {
+                if (!$this->setrelation(reset($this->parentIds),$entity['relatewith'])) {
+                    return false;
+                }
             }
         }
         return true;
