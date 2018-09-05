@@ -243,8 +243,10 @@ class WsWebform
      */
     public function create($entity)
     {
-        foreach ($entity['defaults'] as $field => $value) {
-            if (!isset($entity['data'][$field])) $entity['data'][$field] = $value;
+        if (isset($entity['defaults'])) {
+            foreach ($entity['defaults'] as $field => $value) {
+                if (!isset($entity['data'][$field])) $entity['data'][$field] = $value;
+            }
         }
         return $this->client->doCreate($entity['name'], $entity['data']);
     }
