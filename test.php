@@ -54,7 +54,9 @@ $defaults = array(
                         'related_to' => '[Contacts]',
                         'potentialname' => 'potential_name',
                         'closingdate' => 'potential_closingdate',
-                        'sales_stage' => 'potential_sales_stage',
+                    ),
+                    'defaults' => array(
+                        'sales_stage' => 'Qualification',
                     ),
                     'matching' => array(
                         'related_to',
@@ -74,13 +76,11 @@ require_once('WsWebform.php');
 // Emulate data filled from FORM submit data, this replaces: $data = $_REQUEST;
 $uid = time();
 $data = array(
-    'firstname' => 'n' . $uid,
-    'lastname' => 'ln' . $uid,
-    'email' => $uid . '@example.com',
-    'potential_name' => 'My Potential ' . $uid,
-    'potential_amount' => $uid / 1000,
-    'potential_closingdate' => date('Y-m-d'),
-    'potential_sales_stage' => 'Prospecting',
+    'firstname' => $_POST['firstname'],
+    'lastname' => $_POST['lastname'],
+    'email' => $_POST['email'],
+    'potential_name' => $_POST['potential_name'],
+    'potential_closingdate' => $_POST['potential_closingdate'],
 );
 
 try {

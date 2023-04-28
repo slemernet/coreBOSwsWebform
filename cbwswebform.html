@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form</title>
+</head>
+<body>
+
+	<h1>Fill in the form</h1>
+
+	<form class="form" method="POST" action="test.php">
+		<label for="firstname">First Name</label>
+		<input type="text" id="firstname" name="firstname" required><br><br>
+
+		<label for="lastname">Last Name</label>
+		<input type="text" id="lastname" name="lastname" required><br><br>
+
+		<label for="email">Email</label>
+		<input type="email" id="email" name="email" required><br><br>
+
+		<label for="description">Description</label><br>
+		<textarea id="description" name="description" required></textarea><br><br>
+		
+		<label for="potential_name">What can we help you with?</label>
+		<input type="text" id="potential_name" name="potential_name" required><br><br>
+
+		<label for="potential_closingdate">When should it be done?</label>
+		<input type="date" id="potential_closingdate" name="potential_closingdate" value="yyyy-mm-dd" required><br><br>
+
+		<input type="submit" value="Submit">
+	</form>
+
+</body>
+</html>
